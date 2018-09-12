@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="taggleShow">切换显示</button>
+        <div class="box" v-show="isShow"></div>
+        <ul>
+            <li v-for="(item,index) in arr" :class="{done: item.isDone}" @click="taggleTodo(index)">
+                {{item.todo}}
+            </li>
+            <input type="checkbox" :checked="isShow">
+        </ul>
+    </div>
+</body>
+<script src="./vue.js"></script>
+<script>
+    const app = new Vue({
+        el:"#app",
+        data:{
+            isShow:true,
+            arr:[
+                {
+                    todo:'看书',
+                    isDone:false
+                },
+                {
+                    todo:'学习',
+                    isDone:false
+                },
+                {
+                    todo:'打豆豆',
+                    isDone:true
+                }
+            ]
+        },
+        methods:{
+            taggleShow(){
+                this.isShow = !this.isShow
+            },
+            taggleTodo(index){
+                this.arr[index].isDone = !this.arr[index].isDone
+            }
+        }
+    })
+</script>
+</html>

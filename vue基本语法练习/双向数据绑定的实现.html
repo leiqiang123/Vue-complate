@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- <input type="text" v-model="text">
+        <h1>{{text}}</h1> -->
+        <input type="text" value="998">
+        <h3>父组件的值是{{num1}}</h3>
+        <button @click="parentAdd">+++</button>
+        <!-- <my-component v-bind:my-num="num1" @reduce-parent="reduceSelf" @add-parent="addSelf"></my-component> -->
+        <my-component :value="num1" @input="changeValue"></my-component>
+        <my-component></my-component>
+        <my-component></my-component>
+        <my-component></my-component>
+    </div>
+</body>
+<script src="./vue.js"></script>
+<script>
+    const myComponent = {
+        props:{
+            "my-num":{
+                type:Number
+            },
+            value:{
+                type:Number
+            }
+        },
+        template:`
+            <div>
+                <button @click="Reduce">-</button>
+                <strong>{{num}}</strong>
+                <button @click="Add">+</button>
+            </div>
+        `,
+        data(){
+            return {
+                // num:this.myNum
+                num:this.value
+            }
+        },
+        methods:{
+            Reduce(){
+                this.num--
+                this.$emit("input",this.num)
+                // this.$emit("reduce-parent")
+            },
+            Add(){
+                this.$emit("add-parent")
+            }
+        },
+        watch:{
+            myNum(val){
+                this.num = val
+            },
+            value(val){
+                this.num = val
+            }
+        }
+    }
+    const app = new Vue({
+        components:{
+            myComponent
+        },
+        el:"#app",
+        data:{
+            text:"双向绑定",
+            num1:10
+        },
+        methods:{
+            parentAdd(){
+                this.num1++
+            },
+            addSelf(){
+                this.num1++
+            },
+            reduceSelf(){
+                this.num1--
+            },
+            changeValue(value){
+                this.num1 = value
+            }
+        }
+    })
+</script>
+</html>
